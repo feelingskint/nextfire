@@ -4,6 +4,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
+
 
 class CronSyntaxError(ValueError):
     """The expression is not valid crontab syntax."""
@@ -14,11 +17,16 @@ class Field:
     name: str
     lo: int
     hi: int
+    names: tuple[str, ...] = ()
+    name_base: int = 0
 
     def value(self, token: str) -> int:
-        if not token.isdigit():
+        t = token.lower()
+        if t in self.names:
+            return self.names.index(t) + self.name_base
+        if not t.isdigit():
             raise CronSyntaxError(f"{self.name}: {token!r} is not a number")
-        v = int(token)
+        v = int(t)
         if not self.lo <= v <= self.hi:
             raise CronSyntaxError(f"{self.name}: {v} out of range")
         return v
@@ -27,8 +35,8 @@ class Field:
 MINUTE = Field("minute", 0, 59)
 HOUR = Field("hour", 0, 23)
 DAY = Field("day of month", 1, 31)
-MONTH = Field("month", 1, 12)
-WEEKDAY = Field("day of week", 0, 7)
+MONTH = Field("month", 1, 12, tuple(MONTHS), 1)
+WEEKDAY = Field("day of week", 0, 7, tuple(DAYS))
 FIELDS = (MINUTE, HOUR, DAY, MONTH, WEEKDAY)
 
 
