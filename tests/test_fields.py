@@ -1,6 +1,6 @@
 import unittest
 
-from nextfire.fields import HOUR, MINUTE, WEEKDAY, CronSyntaxError, parse, parse_field
+from nextfire.fields import HOUR, MINUTE, MONTH, WEEKDAY, CronSyntaxError, parse, parse_field
 
 
 class ParseFieldTests(unittest.TestCase):
@@ -21,6 +21,12 @@ class ParseFieldTests(unittest.TestCase):
 
     def test_sunday_as_seven(self):
         self.assertEqual(parse_field("7", WEEKDAY), {0})
+
+    def test_month_names(self):
+        self.assertEqual(parse_field("jan,MAR", MONTH), {1, 3})
+
+    def test_weekday_names(self):
+        self.assertEqual(parse_field("Mon", WEEKDAY), {1})
 
     def test_out_of_range(self):
         with self.assertRaises(CronSyntaxError):
