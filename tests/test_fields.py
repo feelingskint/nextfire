@@ -42,6 +42,14 @@ class ParseTests(unittest.TestCase):
         with self.assertRaises(CronSyntaxError):
             parse("* * * *")
 
+    def test_alias(self):
+        cron = parse("@daily")
+        self.assertEqual((cron.minutes, cron.hours), ({0}, {0}))
+
+    def test_unknown_alias(self):
+        with self.assertRaises(CronSyntaxError):
+            parse("@sometimes")
+
     def test_star_day_flags(self):
         cron = parse("0 0 * * 1")
         self.assertTrue(cron.any_day)

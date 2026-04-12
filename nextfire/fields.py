@@ -7,6 +7,16 @@ from dataclasses import dataclass
 MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
 
+ALIASES = {
+    "@yearly": "0 0 1 1 *",
+    "@annually": "0 0 1 1 *",
+    "@monthly": "0 0 1 * *",
+    "@weekly": "0 0 * * 0",
+    "@daily": "0 0 * * *",
+    "@midnight": "0 0 * * *",
+    "@hourly": "0 * * * *",
+}
+
 
 class CronSyntaxError(ValueError):
     """The expression is not valid crontab syntax."""
@@ -80,7 +90,10 @@ class Cron:
 
 def parse(expr: str) -> Cron:
     source = expr.strip()
-    parts = source.split()
+    text = ALIASES.get(source.lower(), source)
+    if text.startswith("@"):
+        raise CronSyntaxError(f"unknown alias {source!r}")
+    parts = text.split()
     if len(parts) != 5:
         raise CronSyntaxError(f"expected 5 fields, got {len(parts)}")
     minutes, hours, days, months, weekdays = (parse_field(p, f) for p, f in zip(parts, FIELDS))
