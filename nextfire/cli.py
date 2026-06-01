@@ -26,7 +26,14 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+    try:
+        return _run(build_parser().parse_args(argv))
+    except KeyboardInterrupt:
+        print(file=sys.stderr)
+        return 130
+
+
+def _run(args: argparse.Namespace) -> int:
     try:
         cron = parse(args.expression)
     except CronSyntaxError as exc:
