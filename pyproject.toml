@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nextfire"
-version = "0.2.0"
+version = "0.3.0"
 description = "Show when a cron expression will fire next"
 readme = "README.md"
 license = {text = "MIT"}
