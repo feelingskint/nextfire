@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from datetime import datetime
 
@@ -21,6 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--from", dest="start", metavar="'YYYY-MM-DD HH:MM'",
                    help="start from this local time instead of now")
     p.add_argument("--explain", action="store_true", help="also print a plain-English description")
+    p.add_argument("--json", action="store_true", help="print the runs as a JSON list")
     p.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     return p
 
@@ -40,8 +42,12 @@ def _run(args: argparse.Namespace) -> int:
         print(f"nextfire: {exc}", file=sys.stderr)
         return 1
     start = datetime.strptime(args.start, "%Y-%m-%d %H:%M") if args.start else datetime.now()
+    runs = next_runs(cron, start, args.count)
+    if args.json:
+        print(json.dumps([run.isoformat() for run in runs]))
+        return 0
     if args.explain:
         print(describe(cron))
-    for run in next_runs(cron, start, args.count):
+    for run in runs:
         print(run.strftime(OUTPUT_FORMAT))
     return 0

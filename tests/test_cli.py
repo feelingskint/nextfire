@@ -1,4 +1,5 @@
 import io
+import json
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 
@@ -22,6 +23,11 @@ class CliTests(unittest.TestCase):
         code, out, _ = run("0 9 * * *", "-n", "1", "--from", "2026-03-04 10:07", "--explain")
         self.assertEqual(code, 0)
         self.assertEqual(out.splitlines()[0], "At 09:00")
+
+    def test_json(self):
+        code, out, _ = run("0 9 * * *", "-n", "1", "--from", "2026-03-04 10:07", "--json")
+        self.assertEqual(code, 0)
+        self.assertEqual(json.loads(out), ["2026-03-05T09:00:00"])
 
     def test_syntax_error(self):
         code, _, err = run("* * *")
