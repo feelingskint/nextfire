@@ -19,7 +19,7 @@ or `pip install --user git+https://github.com/FlamminSoftware/nextfire`.
 
 ## Usage
 
-    nextfire EXPRESSION [-n COUNT] [--from 'YYYY-MM-DD HH:MM']
+    nextfire EXPRESSION [-n COUNT] [--from 'YYYY-MM-DD HH:MM'] [--explain] [--json]
 
 Times are shown in your local timezone.
 
