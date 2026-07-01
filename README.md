@@ -1,5 +1,7 @@
 # nextfire
 
+[![CI](https://github.com/FlamminSoftware/nextfire/actions/workflows/ci.yml/badge.svg)](https://github.com/FlamminSoftware/nextfire/actions/workflows/ci.yml)
+
 Show when a cron expression will fire next.
 
 ```console
@@ -22,6 +24,16 @@ or `pip install --user git+https://github.com/FlamminSoftware/nextfire`.
     nextfire EXPRESSION [-n COUNT] [--from 'YYYY-MM-DD HH:MM'] [--explain] [--json]
 
 Times are shown in your local timezone.
+
+The usual aliases work too: `@hourly`, `@daily` (or `@midnight`), `@weekly`,
+`@monthly` and `@yearly` (or `@annually`).
+
+```console
+$ nextfire --explain '0 9 * * mon,wed,fri' -n 2 --from '2026-03-04 10:07'
+At 09:00, on Monday, Wednesday and Friday
+2026-03-06 09:00  Fri
+2026-03-09 09:00  Mon
+```
 
 ## Development
 
