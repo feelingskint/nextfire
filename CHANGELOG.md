@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+
+- `--json` prints the upcoming runs as a JSON list.
+- README examples for `--explain` and the `@` aliases.
+
 ## 0.3.0
 
 - `--explain` prints a plain-English description of the expression.
