@@ -55,21 +55,24 @@ def parse_field(text: str, field: Field) -> frozenset[int]:
     for part in text.split(","):
         if not part:
             raise CronSyntaxError(f"{field.name}: empty list item in {text!r}")
-        if part.startswith("*/"):
-            step = part[2:]
-            if not step.isdigit() or int(step) == 0:
-                raise CronSyntaxError(f"{field.name}: bad step {step!r}")
-            values.update(range(field.lo, field.hi + 1, int(step)))
-        elif part == "*":
-            values.update(range(field.lo, field.hi + 1))
-        elif "-" in part:
-            first, last = part.split("-", 1)
+        rng, _, step_text = part.partition("/")
+        step = 1
+        if step_text:
+            if not step_text.isdigit() or int(step_text) == 0:
+                raise CronSyntaxError(f"{field.name}: bad step {step_text!r}")
+            step = int(step_text)
+        if rng == "*":
+            values.update(range(field.lo, field.hi + 1, step))
+        elif "-" in rng:
+            first, last = rng.split("-", 1)
             lo, hi = field.value(first), field.value(last)
             if lo > hi:
-                raise CronSyntaxError(f"{field.name}: range {part!r} goes backwards")
-            values.update(range(lo, hi + 1))
+                raise CronSyntaxError(f"{field.name}: range {rng!r} goes backwards")
+            values.update(range(lo, hi, step))
+        elif step_text:
+            raise CronSyntaxError(f"{field.name}: a step needs a range or '*', got {part!r}")
         else:
-            values.add(field.value(part))
+            values.add(field.value(rng))
     if field is WEEKDAY and 7 in values:
         values.discard(7)
         values.add(0)

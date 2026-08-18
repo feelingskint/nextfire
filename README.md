@@ -25,6 +25,9 @@ or `pip install --user git+https://github.com/FlamminSoftware/nextfire`.
 
 Times are shown in your local timezone.
 
+Steps work on ranges as well as on `*`: `0 8-18/2 * * *` runs every other hour
+during the working day.
+
 The usual aliases work too: `@hourly`, `@daily` (or `@midnight`), `@weekly`,
 `@monthly` and `@yearly` (or `@annually`).
 

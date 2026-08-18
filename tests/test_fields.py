@@ -19,6 +19,13 @@ class ParseFieldTests(unittest.TestCase):
     def test_range(self):
         self.assertIn(9, parse_field("9-17", HOUR))
 
+    def test_range_with_step(self):
+        self.assertEqual(parse_field("1-10/4", MINUTE), {1, 5, 9})
+
+    def test_step_needs_a_range(self):
+        with self.assertRaises(CronSyntaxError):
+            parse_field("5/10", MINUTE)
+
     def test_sunday_as_seven(self):
         self.assertEqual(parse_field("7", WEEKDAY), {0})
 
