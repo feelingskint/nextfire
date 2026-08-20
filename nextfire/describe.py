@@ -7,7 +7,7 @@ from .fields import HOUR, MINUTE, Cron, Field
 DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July",
                "August", "September", "October", "November", "December"]
-MAX_TIMES = 4
+MAX_TIMES = 6
 
 
 def _step(values: frozenset[int], field: Field) -> int | None:
