@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
+- Step values on ranges, e.g. `1-30/5`.
+- `--explain` lists up to six times before falling back to a minute/hour summary.
+
 ## 0.4.0
 
 - `--json` prints the upcoming runs as a JSON list.
