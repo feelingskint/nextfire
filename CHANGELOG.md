@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Clearer error message for out-of-range values.
+
 ## 0.5.0
 
 - Step values on ranges, e.g. `1-30/5`.

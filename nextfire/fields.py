@@ -38,7 +38,7 @@ class Field:
             raise CronSyntaxError(f"{self.name}: {token!r} is not a number")
         v = int(t)
         if not self.lo <= v <= self.hi:
-            raise CronSyntaxError(f"{self.name}: {v} out of range")
+            raise CronSyntaxError(f"{self.name}: {v} is out of range (allowed {self.lo}-{self.hi})")
         return v
 
 
