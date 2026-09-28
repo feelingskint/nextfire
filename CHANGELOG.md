@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Clearer error message for out-of-range values.
+- Syntax errors exit with status 2 (was 1), like other CLI usage errors.
 
 ## 0.5.0
 

@@ -40,7 +40,7 @@ def _run(args: argparse.Namespace) -> int:
         cron = parse(args.expression)
     except CronSyntaxError as exc:
         print(f"nextfire: {exc}", file=sys.stderr)
-        return 1
+        return 2
     start = datetime.strptime(args.start, "%Y-%m-%d %H:%M") if args.start else datetime.now()
     runs = next_runs(cron, start, args.count)
     if args.json:
