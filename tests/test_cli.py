@@ -31,5 +31,5 @@ class CliTests(unittest.TestCase):
 
     def test_syntax_error(self):
         code, _, err = run("* * *")
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 2)
         self.assertIn("expected 5 fields", err)
