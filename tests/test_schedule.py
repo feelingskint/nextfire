@@ -31,6 +31,21 @@ class NextRunsTests(unittest.TestCase):
     def test_leap_day(self):
         self.assertEqual(next_runs(parse("0 12 29 2 *"), START, 1), [datetime(2028, 2, 29, 12, 0)])
 
+    def test_restricted_dom_and_dow_match_either(self):
+        # 1st, 15th, and every Friday (issue #12)
+        runs = next_runs(parse("0 0 1,15 * fri"), START, 5)
+        self.assertEqual(runs, [
+            datetime(2026, 3, 6),   # Fri
+            datetime(2026, 3, 13),  # Fri
+            datetime(2026, 3, 15),  # the 15th (Sunday)
+            datetime(2026, 3, 20),  # Fri
+            datetime(2026, 3, 27),  # Fri
+        ])
+
+    def test_restricted_dom_and_dow_both_still_match(self):
+        # 2026-03-06 is a Friday
+        self.assertEqual(next_runs(parse("0 0 6 * fri"), START, 1), [datetime(2026, 3, 6)])
+
     def test_never(self):
         with self.assertRaises(ValueError):
             next_runs(parse("0 0 30 2 *"), START, 1)
